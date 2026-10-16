@@ -186,6 +186,11 @@ def _ask_claude(document_text: str, instructions: str, schema: dict) -> dict:
         )
     except anthropic.AuthenticationError as exc:
         raise SummarizationError("The Claude API key is missing or invalid. Check ANTHROPIC_API_KEY.") from exc
+    except TypeError as exc:
+        # The SDK raises TypeError before sending anything when no credentials are configured.
+        if "authentication" not in str(exc):
+            raise
+        raise SummarizationError("The Claude API key is missing. Set ANTHROPIC_API_KEY in the .env file.") from exc
     except anthropic.RateLimitError as exc:
         raise SummarizationError("Claude is rate limiting requests. Please wait a minute and try again.") from exc
     except anthropic.BadRequestError as exc:
