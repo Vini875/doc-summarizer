@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Document Summarizer</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <h1>Document Summarizer</h1>
+      <p class="subtitle">Upload an English Word (.docx), Text (.txt) or PDF (.pdf) document up to 1 MB.</p>
+    </header>
+
+    <section class="card">
+      <form id="upload-form">
+        <label for="file-input" class="label">Choose a document</label>
+        <div class="row">
+          <input id="file-input" name="file" type="file" accept=".docx,.txt,.pdf" required>
+          <button id="upload-btn" type="submit">Upload</button>
+        </div>
+      </form>
+      <div id="message" class="message" role="status" aria-live="polite" hidden></div>
+    </section>
+
+    <section id="summarize-section" class="card" hidden>
+      <button id="summarize-btn" type="button" class="primary">Summarize</button>
+      <span id="progress" class="progress" hidden>Summarizing with Claude, checking quality... this can take a minute.</span>
+
+      <div id="results" hidden>
+        <div class="summaries">
+          <div class="summary">
+            <div class="summary-head">
+              <h2>Extractive summary</h2>
+              <span id="extractive-words" class="count"></span>
+            </div>
+            <p class="hint">Key sentences taken word-for-word from the document.</p>
+            <textarea id="extractive" readonly aria-label="Extractive summary"></textarea>
+            <div id="extractive-scores" class="scores"></div>
+          </div>
+          <div class="summary">
+            <div class="summary-head">
+              <h2>Abstractive summary</h2>
+              <span id="abstractive-words" class="count"></span>
+            </div>
+            <p class="hint">The main points rewritten in new words.</p>
+            <textarea id="abstractive" readonly aria-label="Abstractive summary"></textarea>
+            <div id="abstractive-scores" class="scores"></div>
+          </div>
+        </div>
+        <div id="quality" class="quality"></div>
+      </div>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>
